@@ -1,19 +1,39 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
+using System;
 
 public class FileManager : MonoBehaviour
 {
-    string path;
-    public string firstRow;
+    public static List<string[]> data = new List<string[]>();
 
-    public void OpenFileBrowser()
+    private string path;
+
+	private int columnCount = 0;
+
+	private void OpenFileBrowser()
     {
-        path = EditorUtility.OpenFilePanel("CSV File Reader", "", "csv");  //Read the dataset file path
-		ReadDataset();
+        try
+        {
+			path = EditorUtility.OpenFilePanel("CSV File Reader", "", "csv");  //Read the dataset file path
+			ReadDataset();
+		}
+        catch(Exception)
+        {
+            Debug.LogError("Please select a proper dataset...");
+        }
 	}
+
+    private bool CheckColumns()
+    {
+        if (columnCount <= 24)
+        {
+            return false;
+        }
+
+        return true;
+    }
 
     private void ReadDataset()
     {
@@ -21,8 +41,18 @@ public class FileManager : MonoBehaviour
         {
             StreamReader streamReader = new StreamReader(path);  //Read the dataset with the file path
             bool endOfFile = false;
-
-            while (!endOfFile)
+            
+            /*
+            string firstLine = streamReader.ReadLine();
+			var firstRow = firstLine.Split(',');
+            columnCount = firstRow.Length;
+            if (CheckColumns() )
+            {
+                Debug.LogError("Eksik Sütun");
+                return;
+            }
+            */
+			while (!endOfFile)
             {
                 string stringData = streamReader.ReadLine();
                 if (stringData == null)
@@ -32,13 +62,8 @@ public class FileManager : MonoBehaviour
                 }
                 var dataValues = stringData.Split(',');
 
-                for (int i = 0; i < dataValues.Length; i++)
-                {
-                    Debug.Log("Value: " + i.ToString() + " " + dataValues[i].ToString());
-                }
+                data.Add(dataValues);
             }
-        }
-
-
+		}
     }
 }
