@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class VelocityCalculator : MonoBehaviour
 {
+	private int tas_m_s_index = Dataset.columns.IndexOf("tas_m_s");
+	private int alpha_rad_index = Dataset.columns.IndexOf("alpha_rad");
+	private int beta_rad_index = Dataset.columns.IndexOf("beta_rad");
 	public Vector3 CalculateBodyVelocities()
 	{
-		float u = float.Parse(DataManager.telemetryData[3000][DatasetUtils.datasetColumns.IndexOf("tas_m_s")]) * Mathf.Cos(float.Parse(DataManager.telemetryData[1][DatasetUtils.datasetColumns.IndexOf("alpha_rad")])) * Mathf.Cos(float.Parse(DataManager.telemetryData[1][DatasetUtils.datasetColumns.IndexOf("beta_rad")]));
-		float v = float.Parse(DataManager.telemetryData[3000][DatasetUtils.datasetColumns.IndexOf("tas_m_s")]) * Mathf.Sin(float.Parse(DataManager.telemetryData[1][DatasetUtils.datasetColumns.IndexOf("beta_rad")]));
-		float w = float.Parse(DataManager.telemetryData[3000][DatasetUtils.datasetColumns.IndexOf("tas_m_s")]) * Mathf.Sin(float.Parse(DataManager.telemetryData[1][DatasetUtils.datasetColumns.IndexOf("alpha_rad")])) * Mathf.Cos(float.Parse(DataManager.telemetryData[1][DatasetUtils.datasetColumns.IndexOf("beta_rad")]));
+		float u = float.Parse(Dataset.telemetryData[3000][tas_m_s_index]) * Mathf.Cos(float.Parse(Dataset.telemetryData[1][alpha_rad_index])) * Mathf.Cos(float.Parse(Dataset.telemetryData[1][beta_rad_index]));
+		float v = float.Parse(Dataset.telemetryData[3000][tas_m_s_index]) * Mathf.Sin(float.Parse(Dataset.telemetryData[1][beta_rad_index]));
+		float w = float.Parse(Dataset.telemetryData[3000][tas_m_s_index]) * Mathf.Sin(float.Parse(Dataset.telemetryData[1][alpha_rad_index])) * Mathf.Cos(float.Parse(Dataset.telemetryData[1][beta_rad_index]));
 
 		return new Vector3(u, v, w);
 	}

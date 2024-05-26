@@ -1,13 +1,12 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
 using System;
 using UnityEngine.SceneManagement;
 
-public class DataManager : MonoBehaviour
+public class FileManager : MonoBehaviour
 {
-	public static List<string[]> telemetryData = new List<string[]>(); // Static variable declaration for telemetry data (dataset)
+	// Exception handling for the columns will be added...
 
 	private string path; // Path variable for the dataset file
 
@@ -16,7 +15,7 @@ public class DataManager : MonoBehaviour
 		try
 		{
 			path = EditorUtility.OpenFilePanel("CSV File Reader", "", "csv");  // Get the dataset file path
-			ReadDataset();
+			ReadDatasetValues();
 		}
 		catch (Exception)
 		{
@@ -24,12 +23,7 @@ public class DataManager : MonoBehaviour
 		}
 	}
 
-	private void LoadDataPlaybackScene()
-	{
-		SceneManager.LoadScene("DataPlayback");
-	}
-
-	private void ReadDataset()
+	private void ReadDatasetValues()
 	{
 		if (path != null)
 		{
@@ -49,9 +43,13 @@ public class DataManager : MonoBehaviour
 				}
 				dataValues = stringData.Split(','); // Split the values using comma
 
-				telemetryData.Add(dataValues); // Add dataset rows to a list
+				Dataset.telemetryData.Add(dataValues); // Add dataset rows to a list
 			}
 		}
 		LoadDataPlaybackScene();
+	}
+	private void LoadDataPlaybackScene()
+	{
+		SceneManager.LoadScene("DataPlayback");
 	}
 }

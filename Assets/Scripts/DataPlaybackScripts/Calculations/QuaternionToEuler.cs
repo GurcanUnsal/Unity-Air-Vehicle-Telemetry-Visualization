@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class QuaternionToEuler : MonoBehaviour
 {
-	float quat_e0 = float.Parse(DataManager.telemetryData[1][DatasetUtils.datasetColumns.IndexOf("quat_e0")]);
-	float quat_ex = float.Parse(DataManager.telemetryData[1][DatasetUtils.datasetColumns.IndexOf("quat_ex")]);
-	float quat_ey = float.Parse(DataManager.telemetryData[1][DatasetUtils.datasetColumns.IndexOf("quat_ey")]);
-	float quat_ez = float.Parse(DataManager.telemetryData[1][DatasetUtils.datasetColumns.IndexOf("quat_ez")]);
+	float quat_e0 = float.Parse(Dataset.telemetryData[1][Dataset.columns.IndexOf("quat_e0")]);
+	float quat_ex = float.Parse(Dataset.telemetryData[1][Dataset.columns.IndexOf("quat_ex")]);
+	float quat_ey = float.Parse(Dataset.telemetryData[1][Dataset.columns.IndexOf("quat_ey")]);
+	float quat_ez = float.Parse(Dataset.telemetryData[1][Dataset.columns.IndexOf("quat_ez")]);
 	
     private Vector3 eulerAngles;
 
@@ -17,6 +17,6 @@ public class QuaternionToEuler : MonoBehaviour
 
 		Debug.Log("Euler Açýlarý: " + eulerAngles);
 
-		Debug.Log(DataManager.telemetryData[1][5]);
+		Debug.Log(Dataset.telemetryData[1][5]);
 	}
 }
