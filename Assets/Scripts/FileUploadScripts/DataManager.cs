@@ -7,17 +7,15 @@ using UnityEngine.SceneManagement;
 
 public class DataManager : MonoBehaviour
 {
-	public static List<string[]> telemetryData = new List<string[]>();
+	public static List<string[]> telemetryData = new List<string[]>(); // Static variable declaration for telemetry data (dataset)
 
-	public static List<Dictionary<string, float>> telemetryData1 = new();
+	private string path; // Path variable for the dataset file
 
-	private string path;
-
-	private void OpenFileBrowser() //Runs when upload button is clicked
+	private void OpenFileBrowser() // Runs when upload button is clicked
 	{
 		try
 		{
-			path = EditorUtility.OpenFilePanel("CSV File Reader", "", "csv");  //Read the dataset file path
+			path = EditorUtility.OpenFilePanel("CSV File Reader", "", "csv");  // Get the dataset file path
 			ReadDataset();
 		}
 		catch (Exception)
@@ -35,23 +33,23 @@ public class DataManager : MonoBehaviour
 	{
 		if (path != null)
 		{
-			StreamReader streamReader = new StreamReader(path);  //Read the dataset with the file path
+			StreamReader streamReader = new StreamReader(path);  // Read the dataset with the file path
 
 			bool endOfFile = false;
 			string stringData;
 			string[] dataValues;
 
-			while (!endOfFile)
+			while (!endOfFile) // Loop through the dataset until the file is finished
 			{
-				stringData = streamReader.ReadLine();
-				if (stringData == null)
+				stringData = streamReader.ReadLine(); // Read the dataset rows
+				if (stringData == null) // Check dataset file is finished
 				{
 					endOfFile = true;
 					break;
 				}
-				dataValues = stringData.Split(',');
+				dataValues = stringData.Split(','); // Split the values using comma
 
-				telemetryData.Add(dataValues);
+				telemetryData.Add(dataValues); // Add dataset rows to a list
 			}
 		}
 		LoadDataPlaybackScene();
