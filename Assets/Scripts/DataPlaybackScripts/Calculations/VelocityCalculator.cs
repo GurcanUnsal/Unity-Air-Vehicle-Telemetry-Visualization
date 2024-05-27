@@ -9,9 +9,9 @@ public class VelocityCalculator : MonoBehaviour
 	private int beta_rad_index = Dataset.columns.IndexOf("beta_rad");
 	public Vector3 CalculateBodyVelocities()
 	{
-		float u = float.Parse(Dataset.telemetryData[3000][tas_m_s_index]) * Mathf.Cos(float.Parse(Dataset.telemetryData[1][alpha_rad_index])) * Mathf.Cos(float.Parse(Dataset.telemetryData[1][beta_rad_index]));
-		float v = float.Parse(Dataset.telemetryData[3000][tas_m_s_index]) * Mathf.Sin(float.Parse(Dataset.telemetryData[1][beta_rad_index]));
-		float w = float.Parse(Dataset.telemetryData[3000][tas_m_s_index]) * Mathf.Sin(float.Parse(Dataset.telemetryData[1][alpha_rad_index])) * Mathf.Cos(float.Parse(Dataset.telemetryData[1][beta_rad_index]));
+		float u = Dataset.telemetryData[0][tas_m_s_index] * Mathf.Cos(Dataset.telemetryData[0][alpha_rad_index]) * Mathf.Cos(Dataset.telemetryData[0][beta_rad_index]);
+		float v = Dataset.telemetryData[0][tas_m_s_index] * Mathf.Sin(Dataset.telemetryData[0][beta_rad_index]);
+		float w = Dataset.telemetryData[0][tas_m_s_index] * Mathf.Sin(Dataset.telemetryData[0][alpha_rad_index]) * Mathf.Cos(Dataset.telemetryData[0][beta_rad_index]);
 
 		return new Vector3(u, v, w);
 	}

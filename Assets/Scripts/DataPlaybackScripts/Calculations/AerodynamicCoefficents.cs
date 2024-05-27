@@ -20,14 +20,14 @@ public class AerodynamicCoefficents : MonoBehaviour
 
 	public static void CalculateAerodynamicCoefficients()
 	{
-		float rho = GetAirDensity(float.Parse(Dataset.telemetryData[1][Dataset.columns.IndexOf("alt_m")]));
-		float V = float.Parse(Dataset.telemetryData[1][Dataset.columns.IndexOf("tas_m_s")]);
+		float rho = GetAirDensity(Dataset.telemetryData[0][Dataset.columns.IndexOf("alt_m")]);
+		float V = Dataset.telemetryData[1][Dataset.columns.IndexOf("tas_m_s")];
 		float S = 0.55f;
 		float CMAC = 0.19f;
 
 		// Lift ve Drag kuvvetlerini hesapla (basit modelleme ile)
-		float Lift = float.Parse(Dataset.telemetryData[1][Dataset.columns.IndexOf("mass_kg")]) * float.Parse(Dataset.telemetryData[1][Dataset.columns.IndexOf("az_m_s2")]);
-		float Drag = float.Parse(Dataset.telemetryData[1][Dataset.columns.IndexOf("mass_kg")]) * float.Parse(Dataset.telemetryData[1][Dataset.columns.IndexOf("ax_m_s2")]);
+		float Lift = Dataset.telemetryData[0][Dataset.columns.IndexOf("mass_kg")] * Dataset.telemetryData[0][Dataset.columns.IndexOf("az_m_s2")];
+		float Drag = Dataset.telemetryData[0][Dataset.columns.IndexOf("mass_kg")] * Dataset.telemetryData[0][Dataset.columns.IndexOf("ax_m_s2")];
 
 		// Moment hesaplamasý burada yapýlmalý (örneðin dikey eksen etrafýndaki moment)
 		float M = 0; // Bu deðeri uygun þekilde hesaplamanýz gerekecek

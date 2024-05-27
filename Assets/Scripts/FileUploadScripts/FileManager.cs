@@ -3,6 +3,7 @@ using UnityEditor;
 using System.IO;
 using System;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class FileManager : MonoBehaviour
 {
@@ -31,7 +32,16 @@ public class FileManager : MonoBehaviour
 
 			bool endOfFile = false;
 			string stringData;
-			string[] dataValues;
+			string[] stringDataArray;
+			List<float> floatDataList = new List<float>();
+
+			stringData = streamReader.ReadLine();
+			stringDataArray = stringData.Split(',');
+				
+			foreach (string value in stringDataArray)
+			{
+				Dataset.columns.Add(value);
+			}
 
 			while (!endOfFile) // Loop through the dataset until the file is finished
 			{
@@ -41,9 +51,14 @@ public class FileManager : MonoBehaviour
 					endOfFile = true;
 					break;
 				}
-				dataValues = stringData.Split(','); // Split the values using comma
+				stringDataArray = stringData.Split(','); // Split the values using comma
 
-				Dataset.telemetryData.Add(dataValues); // Add dataset rows to a list
+				for (int i = 0; i < stringDataArray.Length; i++)
+				{
+					floatDataList.Add(float.Parse(stringDataArray[i])); // Parse string data to float for each row
+				}
+
+				Dataset.telemetryData.Add(floatDataList); // Add dataset rows to a list
 			}
 		}
 		LoadDataPlaybackScene();
