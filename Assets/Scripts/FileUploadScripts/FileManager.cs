@@ -28,9 +28,6 @@ public class FileManager : MonoBehaviour
 		{
 			Debug.Log("Input-Output exception, please make sure your dataset file is not open...");
 		}
-		
-		path = EditorUtility.OpenFilePanel("CSV File Reader", "", "csv");  // Get the dataset file path
-		ReadDatasetValues();
 	}
 
 	private void ReadDatasetValues()
