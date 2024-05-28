@@ -4,6 +4,7 @@ using System.IO;
 using System;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using System.Globalization;
 
 public class FileManager : MonoBehaviour
 {
@@ -18,10 +19,12 @@ public class FileManager : MonoBehaviour
 			path = EditorUtility.OpenFilePanel("CSV File Reader", "", "csv");  // Get the dataset file path
 			ReadDatasetValues();
 		}
-		catch (Exception)
-		{
-			Debug.LogError("Please select a proper dataset...");
+		catch (Exception e) { 
+			Debug.LogException(e);
 		}
+
+		path = EditorUtility.OpenFilePanel("CSV File Reader", "", "csv");  // Get the dataset file path
+		ReadDatasetValues();
 	}
 
 	private void ReadDatasetValues()
@@ -33,7 +36,7 @@ public class FileManager : MonoBehaviour
 			bool endOfFile = false;
 			string stringData;
 			string[] stringDataArray;
-			List<float> floatDataList = new List<float>();
+			List<float> floatDataList;
 
 			stringData = streamReader.ReadLine();
 			stringDataArray = stringData.Split(',');
@@ -52,10 +55,13 @@ public class FileManager : MonoBehaviour
 					break;
 				}
 				stringDataArray = stringData.Split(','); // Split the values using comma
-
+				floatDataList = new List<float>();
 				for (int i = 0; i < stringDataArray.Length; i++)
 				{
-					floatDataList.Add(float.Parse(stringDataArray[i])); // Parse string data to float for each row
+					if (float.TryParse(stringDataArray[i], NumberStyles.Any, CultureInfo.InvariantCulture, out float result))
+					{
+						floatDataList.Add(result); // Parse string data to float for each row
+					}
 				}
 
 				Dataset.telemetryData.Add(floatDataList); // Add dataset rows to a list
