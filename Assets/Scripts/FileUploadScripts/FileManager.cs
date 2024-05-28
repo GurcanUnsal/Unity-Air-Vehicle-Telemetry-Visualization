@@ -5,6 +5,7 @@ using System;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.Globalization;
+using Unity.VisualScripting;
 
 public class FileManager : MonoBehaviour
 {
@@ -19,10 +20,15 @@ public class FileManager : MonoBehaviour
 			path = EditorUtility.OpenFilePanel("CSV File Reader", "", "csv");  // Get the dataset file path
 			ReadDatasetValues();
 		}
-		catch (Exception e) { 
-			Debug.LogException(e);
+		catch (ArgumentException ) 
+		{ 
+			Debug.Log("Argument exception, please make sure to select a csv file as the dataset...");
 		}
-
+		catch (IOException)
+		{
+			Debug.Log("Input-Output exception, please make sure your dataset file is not open...");
+		}
+		
 		path = EditorUtility.OpenFilePanel("CSV File Reader", "", "csv");  // Get the dataset file path
 		ReadDatasetValues();
 	}
