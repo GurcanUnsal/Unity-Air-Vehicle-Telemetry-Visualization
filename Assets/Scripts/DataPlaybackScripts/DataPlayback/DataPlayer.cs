@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using UnityEngine.UI;
 
 public class DataPlayer : MonoBehaviour
 {
@@ -58,6 +59,9 @@ public class DataPlayer : MonoBehaviour
 	private string lon_rad;
 	private string alt_m;
 
+	// Variable declaration for data progress slider
+
+	private Slider dataProgressSlider;
 
 	void Start()
 	{
@@ -115,6 +119,12 @@ public class DataPlayer : MonoBehaviour
 		lon_rad = Dataset.columns[22];
 		alt_m = Dataset.columns[23];
 
+		// Initializing the data progress slider variable and its properties
+
+		dataProgressSlider = GameObject.Find("DataProgressSlider").GetComponent<Slider>();
+		dataProgressSlider.minValue = 0;
+		dataProgressSlider.maxValue = Dataset.telemetryData[Dataset.telemetryData.Count - 1][0];
+
 		StartCoroutine(PlayData());
 	}
 
@@ -122,43 +132,50 @@ public class DataPlayer : MonoBehaviour
 	{
 		int i = 0;
 		float timeGap;
-		while (i < Dataset.telemetryData.Count)
+		while (true)
 		{
-			time_sn_text.text = $"{time_sn}: {Dataset.telemetryData[i][0]}";
-			ctrlong_text.text = $"{ctrlong}: {Dataset.telemetryData[i][1]}";
-			ctrlatr_text.text = $"{ctrlatr}: {Dataset.telemetryData[i][2]}";
-			ax_m_s2_text.text = $"{ax_m_s2}: {Dataset.telemetryData[i][3]}";
-			ay_m_s2_text.text = $"{ay_m_s2}: {Dataset.telemetryData[i][4]}";
-			az_m_s2_text.text = $"{az_m_s2}: {Dataset.telemetryData[i][5]}";
-			p_rad_s_text.text = $"{p_rad_s}: {Dataset.telemetryData[i][6]}";
-			q_rad_s_text.text = $"{q_rad_s}: {Dataset.telemetryData[i][7]}";
-			r_rad_s_text.text = $"{r_rad_s}: {Dataset.telemetryData[i][8]}";
-			quat_e0_text.text = $"{quat_e0}: {Dataset.telemetryData[i][9]}";
-			quat_ex_text.text = $"{quat_ex}: {Dataset.telemetryData[i][10]}";
-			quat_ey_text.text = $"{quat_ey}: {Dataset.telemetryData[i][11]}";
-			quat_ez_text.text = $"{quat_ez}: {Dataset.telemetryData[i][12]}";
-			alpha_rad_text.text = $"{alpha_rad}: {Dataset.telemetryData[i][13]}";
-			beta_rad_text.text = $"{beta_rad}: {Dataset.telemetryData[i][14]}";
-			tas_m_s_text.text = $"{tas_m_s}: {Dataset.telemetryData[i][15]}";
-			de_rad_text.text = $"{de_rad}: {Dataset.telemetryData[i][16]}";
-			dr_rad_text.text = $"{dr_rad}: {Dataset.telemetryData[i][17]}";
-			da_rad_text.text = $"{da_rad}: {Dataset.telemetryData[i][18]}";
-			mass_kg_text.text = $"{mass_kg}: {Dataset.telemetryData[i][19]}";
-			thrust_N_text.text = $"{thrust_N}: {Dataset.telemetryData[i][20]}";
-			lat_rad_text.text = $"{lat_rad}: {Dataset.telemetryData[i][21]}";
-			lon_rad_text.text = $"{lon_rad}: {Dataset.telemetryData[i][22]}";
-			alt_m_text.text = $"{alt_m}: {Dataset.telemetryData[i][23]}";
+			VisualizeTextData(i); // Display the telemetry data on texts
 
-			if (i + 1 >= Dataset.telemetryData.Count) // try catch eklemeyi dene
+			dataProgressSlider.value = Dataset.telemetryData[i][0]; // Visualize time on data progress slider
+
+			if (i == Dataset.telemetryData.Count) // Break the loop when it hits the last row
 			{
 				break;
 			}
 
 			timeGap = Dataset.telemetryData[i + 1][0] - Dataset.telemetryData[i][0]; // Calculating the time difference for each row
 
-			i++;
+			i++; // increase the i for the next line
 
-			yield return new WaitForSeconds(timeGap); // Wait 
+			yield return new WaitForSeconds(timeGap); // Wait for the time gap between lines
 		}
+	}
+
+	private void VisualizeTextData(int i)
+	{
+		time_sn_text.text = $"{time_sn}: {string.Format("{0:F2}", Dataset.telemetryData[i][0])}";
+		ctrlong_text.text = $"{ctrlong}: {string.Format("{0:F2}", Dataset.telemetryData[i][1])}";
+		ctrlatr_text.text = $"{ctrlatr}: {string.Format("{0:F2}", Dataset.telemetryData[i][2])}";
+		ax_m_s2_text.text = $"{ax_m_s2}: {string.Format("{0:F2}", Dataset.telemetryData[i][3])}";
+		ay_m_s2_text.text = $"{ay_m_s2}: {string.Format("{0:F2}", Dataset.telemetryData[i][4])}";
+		az_m_s2_text.text = $"{az_m_s2}: {string.Format("{0:F2}", Dataset.telemetryData[i][5])}";
+		p_rad_s_text.text = $"{p_rad_s}: {string.Format("{0:F2}", Dataset.telemetryData[i][6])}";
+		q_rad_s_text.text = $"{q_rad_s}: {string.Format("{0:F2}", Dataset.telemetryData[i][7])}";
+		r_rad_s_text.text = $"{r_rad_s}: {string.Format("{0:F2}", Dataset.telemetryData[i][8])}";
+		quat_e0_text.text = $"{quat_e0}: {string.Format("{0:F2}", Dataset.telemetryData[i][9])}";
+		quat_ex_text.text = $"{quat_ex}: {string.Format("{0:F2}", Dataset.telemetryData[i][10])}";
+		quat_ey_text.text = $"{quat_ey}: {string.Format("{0:F2}", Dataset.telemetryData[i][11])}";
+		quat_ez_text.text = $"{quat_ez}: {string.Format("{0:F2}", Dataset.telemetryData[i][12])}";
+		alpha_rad_text.text = $"{alpha_rad}: {string.Format("{0:F2}", Dataset.telemetryData[i][13])}";
+		beta_rad_text.text = $"{beta_rad}: {string.Format("{0:F2}", Dataset.telemetryData[i][14])}";
+		tas_m_s_text.text = $"{tas_m_s}: {string.Format("{0:F2}", Dataset.telemetryData[i][15])}";
+		de_rad_text.text = $"{de_rad}: {string.Format("{0:F2}", Dataset.telemetryData[i][16])}";
+		dr_rad_text.text = $"{dr_rad}: {string.Format("{0:F2}", Dataset.telemetryData[i][17])}";
+		da_rad_text.text = $"{da_rad}: {string.Format("{0:F2}", Dataset.telemetryData[i][18])}";
+		mass_kg_text.text = $"{mass_kg}: {string.Format("{0:F2}", Dataset.telemetryData[i][19])}";
+		thrust_N_text.text = $"{thrust_N}: {string.Format("{0:F2}", Dataset.telemetryData[i][20])}";
+		lat_rad_text.text = $"{lat_rad}: {string.Format("{0:F2}", Dataset.telemetryData[i][21])}";
+		lon_rad_text.text = $"{lon_rad}: {string.Format("{0:F2}", Dataset.telemetryData[i][22])}";
+		alt_m_text.text = $"{alt_m}: {string.Format("{0:F2}", Dataset.telemetryData[i][23])}";
 	}
 }
