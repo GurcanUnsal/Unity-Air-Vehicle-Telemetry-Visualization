@@ -31,6 +31,34 @@ public class DataPlayer : MonoBehaviour
 	private TextMeshProUGUI lon_rad_text;
 	private TextMeshProUGUI alt_m_text;
 
+	// Variable declarations for dataset columns
+
+	private string time_sn;
+	private string ctrlong;
+	private string ctrlatr;
+	private string ax_m_s2;
+	private string ay_m_s2;
+	private string az_m_s2;
+	private string p_rad_s;
+	private string q_rad_s;
+	private string r_rad_s;
+	private string quat_e0;
+	private string quat_ex;
+	private string quat_ey;
+	private string quat_ez;
+	private string alpha_rad;
+	private string beta_rad;
+	private string tas_m_s;
+	private string de_rad;
+	private string dr_rad;
+	private string da_rad;
+	private string mass_kg;
+	private string thrust_N;
+	private string lat_rad;
+	private string lon_rad;
+	private string alt_m;
+
+
 	void Start()
 	{
 		// Initializing the text component variables
@@ -60,50 +88,77 @@ public class DataPlayer : MonoBehaviour
 		lon_rad_text = GameObject.Find("lon_rad_text").GetComponent<TextMeshProUGUI>();
 		alt_m_text = GameObject.Find("alt_m_text").GetComponent<TextMeshProUGUI>();
 
+		// Initializing the dataset column variables
+
+		time_sn = Dataset.columns[0];
+		ctrlong = Dataset.columns[1];
+		ctrlatr = Dataset.columns[2];
+		ax_m_s2 = Dataset.columns[3];
+		ay_m_s2 = Dataset.columns[4];
+		az_m_s2 = Dataset.columns[5];
+		p_rad_s = Dataset.columns[6];
+		q_rad_s = Dataset.columns[7];
+		r_rad_s = Dataset.columns[8];
+		quat_e0 = Dataset.columns[9];
+		quat_ex = Dataset.columns[10];
+		quat_ey = Dataset.columns[11];
+		quat_ez = Dataset.columns[12];
+		alpha_rad = Dataset.columns[13];
+		beta_rad = Dataset.columns[14];
+		tas_m_s = Dataset.columns[15];
+		de_rad = Dataset.columns[16];
+		dr_rad = Dataset.columns[17];
+		da_rad = Dataset.columns[18];
+		mass_kg = Dataset.columns[19];
+		thrust_N = Dataset.columns[20];
+		lat_rad = Dataset.columns[21];
+		lon_rad = Dataset.columns[22];
+		alt_m = Dataset.columns[23];
+
 		StartCoroutine(PlayData());
 	}
 
 	IEnumerator PlayData()
 	{
 		int i = 0;
-		float deltaTime;
+		float timeGap;
 		while (i < Dataset.telemetryData.Count)
 		{
-			time_sn_text.text = Dataset.telemetryData[i][0].ToString();
-			ctrlong_text.text = Dataset.telemetryData[i][1].ToString();
-			ctrlatr_text.text = Dataset.telemetryData[i][2].ToString();
-			ax_m_s2_text.text = Dataset.telemetryData[i][3].ToString();
-			ay_m_s2_text.text = Dataset.telemetryData[i][4].ToString();
-			az_m_s2_text.text = Dataset.telemetryData[i][5].ToString();
-			p_rad_s_text.text = Dataset.telemetryData[i][6].ToString();
-			q_rad_s_text.text = Dataset.telemetryData[i][7].ToString();
-			r_rad_s_text.text = Dataset.telemetryData[i][8].ToString();
-			quat_e0_text.text = Dataset.telemetryData[i][9].ToString();
-			quat_ex_text.text = Dataset.telemetryData[i][10].ToString();
-			quat_ey_text.text = Dataset.telemetryData[i][11].ToString();
-			quat_ez_text.text = Dataset.telemetryData[i][12].ToString();
-			alpha_rad_text.text = Dataset.telemetryData[i][13].ToString();
-			beta_rad_text.text = Dataset.telemetryData[i][14].ToString();
-			tas_m_s_text.text = Dataset.telemetryData[i][15].ToString();
-			de_rad_text.text = Dataset.telemetryData[i][16].ToString();
-			dr_rad_text.text = Dataset.telemetryData[i][17].ToString();
-			da_rad_text.text = Dataset.telemetryData[i][18].ToString();
-			mass_kg_text.text = Dataset.telemetryData[i][19].ToString();
-			thrust_N_text.text = Dataset.telemetryData[i][20].ToString();
-			lat_rad_text.text = Dataset.telemetryData[i][21].ToString();
-			lon_rad_text.text = Dataset.telemetryData[i][22].ToString();
-			alt_m_text.text = Dataset.telemetryData[i][23].ToString();
+			time_sn_text.text = $"{time_sn}: {Dataset.telemetryData[i][0]}";
+			ctrlong_text.text = $"{ctrlong}: {Dataset.telemetryData[i][1]}";
+			ctrlatr_text.text = $"{ctrlatr}: {Dataset.telemetryData[i][2]}";
+			ax_m_s2_text.text = $"{ax_m_s2}: {Dataset.telemetryData[i][3]}";
+			ay_m_s2_text.text = $"{ay_m_s2}: {Dataset.telemetryData[i][4]}";
+			az_m_s2_text.text = $"{az_m_s2}: {Dataset.telemetryData[i][5]}";
+			p_rad_s_text.text = $"{p_rad_s}: {Dataset.telemetryData[i][6]}";
+			q_rad_s_text.text = $"{q_rad_s}: {Dataset.telemetryData[i][7]}";
+			r_rad_s_text.text = $"{r_rad_s}: {Dataset.telemetryData[i][8]}";
+			quat_e0_text.text = $"{quat_e0}: {Dataset.telemetryData[i][9]}";
+			quat_ex_text.text = $"{quat_ex}: {Dataset.telemetryData[i][10]}";
+			quat_ey_text.text = $"{quat_ey}: {Dataset.telemetryData[i][11]}";
+			quat_ez_text.text = $"{quat_ez}: {Dataset.telemetryData[i][12]}";
+			alpha_rad_text.text = $"{alpha_rad}: {Dataset.telemetryData[i][13]}";
+			beta_rad_text.text = $"{beta_rad}: {Dataset.telemetryData[i][14]}";
+			tas_m_s_text.text = $"{tas_m_s}: {Dataset.telemetryData[i][15]}";
+			de_rad_text.text = $"{de_rad}: {Dataset.telemetryData[i][16]}";
+			dr_rad_text.text = $"{dr_rad}: {Dataset.telemetryData[i][17]}";
+			da_rad_text.text = $"{da_rad}: {Dataset.telemetryData[i][18]}";
+			mass_kg_text.text = $"{mass_kg}: {Dataset.telemetryData[i][19]}";
+			thrust_N_text.text = $"{thrust_N}: {Dataset.telemetryData[i][20]}";
+			lat_rad_text.text = $"{lat_rad}: {Dataset.telemetryData[i][21]}";
+			lon_rad_text.text = $"{lon_rad}: {Dataset.telemetryData[i][22]}";
+			alt_m_text.text = $"{alt_m}: {Dataset.telemetryData[i][23]}";
 
-			if (i + 1 >= Dataset.telemetryData.Count)
+			if (i + 1 >= Dataset.telemetryData.Count) // try catch eklemeyi dene
 			{
 				break;
 			}
 
-			deltaTime = Dataset.telemetryData[i + 1][0] - Dataset.telemetryData[i][0];
+			timeGap = Dataset.telemetryData[i + 1][0] - Dataset.telemetryData[i][0]; // Calculating the time difference for each row
 
 			i++;
 
-			yield return new WaitForSeconds(deltaTime);
+			yield return new WaitForSeconds(timeGap); // Wait 
 		}
 	}
 }
