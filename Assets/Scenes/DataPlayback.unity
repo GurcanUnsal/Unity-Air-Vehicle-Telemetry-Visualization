@@ -1592,6 +1592,7 @@ GameObject:
   m_Component:
   - component: {fileID: 915374370}
   - component: {fileID: 915374371}
+  - component: {fileID: 915374372}
   m_Layer: 5
   m_Name: DataProgressSlider
   m_TagString: Untagged
@@ -1672,6 +1673,18 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &915374372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915374369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec18d8a23ef86df40b5f39b0ee09ef78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1098403471
 GameObject:
   m_ObjectHideFlags: 0
@@ -3600,10 +3613,6 @@ GameObject:
   - component: {fileID: 1753656962}
   - component: {fileID: 1753656961}
   - component: {fileID: 1753656960}
-  - component: {fileID: 1753656964}
-  - component: {fileID: 1753656965}
-  - component: {fileID: 1753656966}
-  - component: {fileID: 1753656967}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3685,54 +3694,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1753656964
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1753656959}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74726f5990213004bac52c1071957cfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1753656965
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1753656959}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f61f1d29ccbc9f43a3cf5f045ec1a60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1753656966
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1753656959}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bde151e9f7e78340ae597f760013d82, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1753656967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1753656959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 271b8701648aac44690f6db65b5a2774, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1785854185
 GameObject:
   m_ObjectHideFlags: 0
@@ -4135,6 +4096,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2038289029}
   m_CullTransparentMesh: 1
+--- !u!1 &2039215175
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2039215177}
+  - component: {fileID: 2039215176}
+  m_Layer: 0
+  m_Name: DataPlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2039215176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039215175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 271b8701648aac44690f6db65b5a2774, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &2039215177
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039215175}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2081540434
 GameObject:
   m_ObjectHideFlags: 0
@@ -4277,3 +4282,4 @@ SceneRoots:
   - {fileID: 1618064884}
   - {fileID: 54426958}
   - {fileID: 1732989222}
+  - {fileID: 2039215177}

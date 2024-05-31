@@ -2,9 +2,13 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 public class DataPlayer : MonoBehaviour
 {
+	public static IEnumerator dataPlayer;
+
 	// Variable declarations for text components
 
 	private TextMeshProUGUI time_sn_text;
@@ -61,7 +65,7 @@ public class DataPlayer : MonoBehaviour
 
 	// Variable declaration for data progress slider
 
-	private Slider dataProgressSlider;
+	private static Slider dataProgressSlider;
 
 	void Start()
 	{
@@ -125,20 +129,32 @@ public class DataPlayer : MonoBehaviour
 		dataProgressSlider.minValue = 0;
 		dataProgressSlider.maxValue = Dataset.telemetryData[Dataset.telemetryData.Count - 1][0];
 
-		StartCoroutine(PlayData());
+		// Start data player coroutine
+
+		StartData(0);
 	}
 
-	IEnumerator PlayData()
+	public IEnumerator PlayData(float startFrom)
 	{
 		int i = 0;
 		float timeGap;
+		
+
+		foreach (List<float> row in Dataset.telemetryData)
+		{
+			if (row[0] == startFrom)
+			{
+				i = Dataset.telemetryData.IndexOf(row); // Find the index from startFrom value
+			}
+		}
+
 		while (true)
 		{
 			VisualizeTextData(i); // Display the telemetry data on texts
 
 			dataProgressSlider.value = Dataset.telemetryData[i][0]; // Visualize time on data progress slider
 
-			if (i == Dataset.telemetryData.Count) // Break the loop when it hits the last row
+			if (i + 1 >= Dataset.telemetryData.Count) // Break the loop when it hits the last row
 			{
 				break;
 			}
@@ -177,5 +193,16 @@ public class DataPlayer : MonoBehaviour
 		lat_rad_text.text = $"{lat_rad}: {string.Format("{0:F2}", Dataset.telemetryData[i][21])}";
 		lon_rad_text.text = $"{lon_rad}: {string.Format("{0:F2}", Dataset.telemetryData[i][22])}";
 		alt_m_text.text = $"{alt_m}: {string.Format("{0:F2}", Dataset.telemetryData[i][23])}";
+	}
+
+	public void StopData()
+	{
+		StopCoroutine(dataPlayer);
+	}
+
+	public void StartData(float startFrom)
+	{
+		dataPlayer = PlayData(startFrom);
+		StartCoroutine(dataPlayer);
 	}
 }
