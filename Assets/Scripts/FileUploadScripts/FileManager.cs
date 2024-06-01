@@ -5,10 +5,14 @@ using System;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.Globalization;
+using TMPro;
 
 public class FileManager : MonoBehaviour
 {
 	// Exception handling for the columns will be added...
+
+	[SerializeField] private GameObject errorPanel;
+	[SerializeField] private TextMeshProUGUI errorText;
 
 	private string path; // Path variable for the dataset file
 
@@ -19,13 +23,15 @@ public class FileManager : MonoBehaviour
 			path = EditorUtility.OpenFilePanel("CSV File Reader", "", "csv");  // Get the dataset file path
 			ReadDatasetValues();
 		}
-		catch (ArgumentException ) 
-		{ 
-			Debug.Log("Argument exception, please make sure to select a csv file as the dataset...");
+		catch (ArgumentException) 
+		{
+			errorText.text = "Please make sure to select a csv file as the dataset.";
+			errorPanel.SetActive(true);
 		}
 		catch (IOException)
 		{
-			Debug.Log("Input-Output exception, please make sure your dataset file is not open...");
+			errorText.text = "Please make sure your dataset file is not open.";
+			errorPanel.SetActive(true);
 		}
 	}
 
@@ -46,6 +52,13 @@ public class FileManager : MonoBehaviour
 			foreach (string value in stringDataArray)
 			{
 				Dataset.columns.Add(value);
+			}
+
+			if (IsColumnMissing())
+			{
+				errorText.text = "There are missing columns in the data set you uploaded";
+				errorPanel.SetActive(true);
+				return;
 			}
 
 			while (!endOfFile) // Loop through the dataset until the file is finished
@@ -71,8 +84,27 @@ public class FileManager : MonoBehaviour
 		}
 		LoadDataPlaybackScene();
 	}
+
 	private void LoadDataPlaybackScene()
 	{
 		SceneManager.LoadScene("DataPlayback");
+	}
+
+	public void CloseErrorPanel()
+	{
+		errorPanel.SetActive(false);
+	}
+
+	private bool IsColumnMissing()
+	{
+		for (int i = 0; i < Dataset.expectedColumns.Count; i++)
+		{
+			if (!Dataset.columns[i].Equals(Dataset.expectedColumns[i]))
+			{
+				Dataset.columns.Clear();
+				return true;
+			}
+		}
+		return false;
 	}
 }

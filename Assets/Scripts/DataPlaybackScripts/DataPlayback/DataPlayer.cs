@@ -3,13 +3,13 @@ using TMPro;
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using UnityEngine.EventSystems;
 
 public class DataPlayer : MonoBehaviour
 {
-	public static IEnumerator dataPlayer;
+	private IEnumerator dataPlayer;
 
 	// Variable declarations for text components
+	#region Text Component Declarations
 
 	private TextMeshProUGUI time_sn_text;
 	private TextMeshProUGUI ctrlong_text;
@@ -36,7 +36,10 @@ public class DataPlayer : MonoBehaviour
 	private TextMeshProUGUI lon_rad_text;
 	private TextMeshProUGUI alt_m_text;
 
+	#endregion
+
 	// Variable declarations for dataset columns
+	#region Dataset Column Declarations
 
 	private string time_sn;
 	private string ctrlong;
@@ -63,13 +66,15 @@ public class DataPlayer : MonoBehaviour
 	private string lon_rad;
 	private string alt_m;
 
-	// Variable declaration for data progress slider
+	#endregion
 
+	// Variable declaration for data progress slider
 	private static Slider dataProgressSlider;
 
 	void Start()
 	{
 		// Initializing the text component variables
+		#region Text Components
 
 		time_sn_text = GameObject.Find("time_sn_text").GetComponent<TextMeshProUGUI>();
 		ctrlong_text = GameObject.Find("ctrlong_text").GetComponent<TextMeshProUGUI>();
@@ -96,7 +101,10 @@ public class DataPlayer : MonoBehaviour
 		lon_rad_text = GameObject.Find("lon_rad_text").GetComponent<TextMeshProUGUI>();
 		alt_m_text = GameObject.Find("alt_m_text").GetComponent<TextMeshProUGUI>();
 
+		#endregion
+
 		// Initializing the dataset column variables
+		#region Dataset Columns
 
 		time_sn = Dataset.columns[0];
 		ctrlong = Dataset.columns[1];
@@ -123,14 +131,14 @@ public class DataPlayer : MonoBehaviour
 		lon_rad = Dataset.columns[22];
 		alt_m = Dataset.columns[23];
 
-		// Initializing the data progress slider variable and its properties
+		#endregion
 
+		// Initializing the data progress slider variable and its properties
 		dataProgressSlider = GameObject.Find("DataProgressSlider").GetComponent<Slider>();
 		dataProgressSlider.minValue = 0;
 		dataProgressSlider.maxValue = Dataset.telemetryData[Dataset.telemetryData.Count - 1][0];
 
-		// Start data player coroutine
-
+		// Start data player coroutine when scene is loaded
 		StartData(0);
 	}
 
