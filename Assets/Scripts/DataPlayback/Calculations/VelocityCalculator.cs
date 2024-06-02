@@ -11,12 +11,12 @@ public class VelocityCalculator : MonoBehaviour
 		velocityCalculatorText = GetComponent<TextMeshProUGUI>();
 	}
 
-	public void VisualizeBodyVelocities(float alpha_rad, float beta_rad, float tas_m_s)
+	public void VisualizeBodyVelocities(float alpha, float beta, float tas)
 	{
 		// Calculations of velocity components
-		float u = tas_m_s * Mathf.Cos(alpha_rad) * Mathf.Cos(beta_rad);
-		float v = tas_m_s * Mathf.Sin(beta_rad);
-		float w = tas_m_s * Mathf.Sin(alpha_rad) * Mathf.Cos(beta_rad);
+		float u = tas * Mathf.Cos(alpha) * Mathf.Cos(beta);
+		float v = tas * Mathf.Sin(beta);
+		float w = tas * Mathf.Sin(alpha) * Mathf.Cos(beta);
 
 		velocityCalculatorText.text = $"U: {string.Format("{0:F2}", u)} V: {string.Format("{0:F2}", v)} W: {string.Format("{0:F2}", w)}";
 	}

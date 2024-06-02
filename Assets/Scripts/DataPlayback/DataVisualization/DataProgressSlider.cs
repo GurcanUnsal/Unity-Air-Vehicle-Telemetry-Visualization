@@ -4,7 +4,8 @@ using UnityEngine.UI;
 
 public class DataProgressSlider : MonoBehaviour, IPointerDownHandler
 {
-	DataPlayer player; // Reference to DataPlayer component
+	// Reference to DataPlayer component
+	DataPlayer player;
 	public void OnPointerDown(PointerEventData eventData)
 	{
 		player = GameObject.Find("DataPlayer").GetComponent<DataPlayer>();

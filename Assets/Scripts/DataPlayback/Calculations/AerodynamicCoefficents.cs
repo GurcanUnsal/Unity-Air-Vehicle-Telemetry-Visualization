@@ -3,6 +3,7 @@ using TMPro;
 
 public class AerodynamicCoefficients : MonoBehaviour
 {
+	// Reference to the text game object
 	private TextMeshProUGUI aerodynamicCoefficientsText;
 
 	// Constant variable declarations

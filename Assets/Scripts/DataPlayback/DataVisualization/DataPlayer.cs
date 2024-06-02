@@ -79,6 +79,7 @@ public class DataPlayer : MonoBehaviour
 
 	private IEnumerator dataPlayer; // Variable declaration for coroutine
 
+	// Definition of variables assigned from the editor
 	[SerializeField] private GameObject errorPanel;
 	[SerializeField] private TextMeshProUGUI errorText;
 
@@ -171,6 +172,7 @@ public class DataPlayer : MonoBehaviour
 		} 
 		catch(ArgumentOutOfRangeException)
 		{
+			// Show the error window
 			errorText.text = "You did not upload any dataset. Press OK to upload one.";
 			errorPanel.SetActive(true);
 			return;
@@ -195,31 +197,50 @@ public class DataPlayer : MonoBehaviour
 
 		while (true)
 		{
-			VisualizeTextData(i); // Display the telemetry data on texts
+			// Display the telemetry data on texts
+			VisualizeTextData(i); 
 
-			quaternionToEuler.VisualizeQuaternionToEuler(Dataset.telemetryData[i][10], Dataset.telemetryData[i][11], Dataset.telemetryData[i][12], Dataset.telemetryData[i][9]); // Quaternion to euler
-			velocityCalculator.VisualizeBodyVelocities(Dataset.telemetryData[i][13], Dataset.telemetryData[i][14], Dataset.telemetryData[i][15]); // Velocity calculations
-			geoToNED.LatLonAltToNED(Dataset.telemetryData[0][21] , Dataset.telemetryData[0][22],Dataset.telemetryData[0][23], 
-									Dataset.telemetryData[i][21], Dataset.telemetryData[i][22], Dataset.telemetryData[i][23]); // Geo to NED calculations
-			aerodynamicCoefficients.VisualizeAerodynamicCoefficients(Dataset.telemetryData[i][3], Dataset.telemetryData[i][4], Dataset.telemetryData[i][5], Dataset.telemetryData[i][19],
-																	Dataset.telemetryData[i][20], Dataset.telemetryData[i][15], Dataset.telemetryData[i][23]); // Aerodynamic Coefficients
+			// Quaternion to euler
+			quaternionToEuler.VisualizeQuaternionToEuler(Dataset.telemetryData[i][Dataset.columns.IndexOf(quat_ex)], Dataset.telemetryData[i][Dataset.columns.IndexOf(quat_ey)], 
+														 Dataset.telemetryData[i][Dataset.columns.IndexOf(quat_ez)], Dataset.telemetryData[i][Dataset.columns.IndexOf(quat_e0)]);
 
-			visualization.VisualizePlaneLocationAndRotation(Dataset.telemetryData[i][10], Dataset.telemetryData[i][11], 
-															Dataset.telemetryData[i][12], Dataset.telemetryData[i][9], timeGap); // vehicle visualization
+			// Velocity calculations
+			velocityCalculator.VisualizeBodyVelocities(Dataset.telemetryData[i][Dataset.columns.IndexOf(alpha_rad)], Dataset.telemetryData[i][Dataset.columns.IndexOf(beta_rad)],
+													   Dataset.telemetryData[i][Dataset.columns.IndexOf(tas_m_s)]);
 
-			dataProgressSlider.value = Dataset.telemetryData[i][0]; // Visualize time on data progress slider
+			// Geo to NED calculations
+			geoToNED.LatLonAltToNED(Dataset.telemetryData[0][Dataset.columns.IndexOf(lat_rad)] , Dataset.telemetryData[0][Dataset.columns.IndexOf(lon_rad)],
+									Dataset.telemetryData[0][Dataset.columns.IndexOf(alt_m)], Dataset.telemetryData[i][Dataset.columns.IndexOf(lat_rad)], 
+									Dataset.telemetryData[i][Dataset.columns.IndexOf(lon_rad)], Dataset.telemetryData[i][Dataset.columns.IndexOf(alt_m)]);
 
-			if (i + 1 >= Dataset.telemetryData.Count) // Break the loop when it hits the last row
+			// Aerodynamic Coefficients
+			aerodynamicCoefficients.VisualizeAerodynamicCoefficients(Dataset.telemetryData[i][Dataset.columns.IndexOf(ax_m_s2)], Dataset.telemetryData[i][Dataset.columns.IndexOf(ay_m_s2)], 
+																	Dataset.telemetryData[i][Dataset.columns.IndexOf(az_m_s2)], Dataset.telemetryData[i][Dataset.columns.IndexOf(mass_kg)],
+																	Dataset.telemetryData[i][Dataset.columns.IndexOf(thrust_N)], Dataset.telemetryData[i][Dataset.columns.IndexOf(tas_m_s)], 
+																	Dataset.telemetryData[i][Dataset.columns.IndexOf(alt_m)]);
+
+			// vehicle visualization
+			visualization.VisualizePlaneLocationAndRotation(Dataset.telemetryData[i][Dataset.columns.IndexOf(quat_ex)], Dataset.telemetryData[i][Dataset.columns.IndexOf(quat_ey)], 
+															Dataset.telemetryData[i][Dataset.columns.IndexOf(quat_ez)], Dataset.telemetryData[i][Dataset.columns.IndexOf(quat_e0)], timeGap);
+
+			// Visualize time on data progress slider
+			dataProgressSlider.value = Dataset.telemetryData[i][Dataset.columns.IndexOf(time_sn)]; 
+
+			// Break the loop when it hits the last row
+			if (i + 1 >= Dataset.telemetryData.Count) 
 			{
 				StopData();
 				break;
 			}
 
-			timeGap = Dataset.telemetryData[i + 1][0] - Dataset.telemetryData[i][0]; // Calculating the time difference for each row
+			// Calculating the time difference for each row
+			timeGap = Dataset.telemetryData[i + 1][Dataset.columns.IndexOf(time_sn)] - Dataset.telemetryData[i][Dataset.columns.IndexOf(time_sn)];
 
-			i++; // increase the i for the next line
+			// increase the i for the next line
+			i++;
 
-			yield return new WaitForSeconds(timeGap); // Wait for the time gap between lines
+			// Wait for the time gap between lines
+			yield return new WaitForSeconds(timeGap); 
 		}
 	}
 

@@ -3,8 +3,10 @@ using TMPro;
 
 public class GeoToNED : MonoBehaviour
 {
+	// Reference to the text game object
 	private TextMeshProUGUI geoToNEDText;
 
+	// Radius of earth
 	private const float EarthRadius = 6378137.0f;
 
 	public static float north;

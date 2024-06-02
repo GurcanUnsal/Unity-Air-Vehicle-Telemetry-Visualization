@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class Propeller : MonoBehaviour
 {
-    public static bool shouldTurn = true;
+	// Variable that controls whether propeller rotates or not
+	public static bool shouldTurn = true;
     void Update()
     {
         if (shouldTurn)

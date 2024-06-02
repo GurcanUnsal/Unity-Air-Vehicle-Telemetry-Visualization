@@ -9,8 +9,7 @@ using TMPro;
 
 public class FileManager : MonoBehaviour
 {
-	// Exception handling for the columns will be added...
-
+	// Definition of variables assigned from the editor
 	[SerializeField] private GameObject errorPanel;
 	[SerializeField] private TextMeshProUGUI errorText;
 
@@ -20,16 +19,19 @@ public class FileManager : MonoBehaviour
 	{
 		try
 		{
-			path = EditorUtility.OpenFilePanel("CSV File Reader", "", "csv");  // Get the dataset file path
+			// Read the dataset
+			path = EditorUtility.OpenFilePanel("CSV File Reader", "", "csv");  
 			ReadDatasetValues();
 		}
 		catch (ArgumentException) 
 		{
+			// Show the error window
 			errorText.text = "Please make sure to select a csv file as the dataset.";
 			errorPanel.SetActive(true);
 		}
 		catch (IOException)
 		{
+			// Show the error window
 			errorText.text = "Please make sure your dataset file is not open.";
 			errorPanel.SetActive(true);
 		}
@@ -66,14 +68,13 @@ public class FileManager : MonoBehaviour
 				stringData = streamReader.ReadLine(); // Read the dataset rows
 				if (stringData == null) // Check dataset file is finished
 				{
-					endOfFile = true;
 					break;
 				}
 				stringDataArray = stringData.Split(','); // Split the values using comma
 				floatDataList = new List<float>();
 				for (int i = 0; i < stringDataArray.Length; i++)
 				{
-					if (float.TryParse(stringDataArray[i], NumberStyles.Any, CultureInfo.InvariantCulture, out float result))
+					if (float.TryParse(stringDataArray[i], NumberStyles.Any, CultureInfo.InvariantCulture, out float result)) // Parse string data to float
 					{
 						floatDataList.Add(result); // Parse string data to float for each row
 					}
@@ -95,6 +96,7 @@ public class FileManager : MonoBehaviour
 		errorPanel.SetActive(false);
 	}
 
+	// Check if there are any missing columns
 	private bool IsColumnMissing()
 	{
 		for (int i = 0; i < Dataset.expectedColumns.Count; i++)
