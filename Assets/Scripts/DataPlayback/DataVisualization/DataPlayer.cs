@@ -224,7 +224,7 @@ public class DataPlayer : MonoBehaviour
 															Dataset.telemetryData[i][Dataset.columns.IndexOf(quat_ez)], Dataset.telemetryData[i][Dataset.columns.IndexOf(quat_e0)], timeGap);
 
 			// Visualize time on data progress slider
-			dataProgressSlider.value = Dataset.telemetryData[i][Dataset.columns.IndexOf(time_sn)]; 
+			dataProgressSlider.value = Dataset.telemetryData[i][Dataset.columns.IndexOf(time_sn)];
 
 			// Break the loop when it hits the last row
 			if (i + 1 >= Dataset.telemetryData.Count) 

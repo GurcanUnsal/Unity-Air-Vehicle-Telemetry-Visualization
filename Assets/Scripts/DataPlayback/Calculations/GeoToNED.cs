@@ -26,7 +26,7 @@ public class GeoToNED : MonoBehaviour
 
 		north = dLat * EarthRadius;
 		east = dLon * EarthRadius * Mathf.Cos(Mathf.Deg2Rad * ref_lat);
-		down = ref_alt - alt_m;
+		down = alt_m - ref_alt;
 
 		geoToNEDText.text = $"North: {string.Format("{0:F2}", north)} East: {string.Format("{0:F2}", east)} Down: {string.Format("{0:F2}", down)}";
 	}
