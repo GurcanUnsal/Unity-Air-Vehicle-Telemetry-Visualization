@@ -13,6 +13,7 @@ public class QuaternionToEuler : MonoBehaviour
 		quaternionToEulerText = GetComponent<TextMeshProUGUI>();
 	}
 
+	// Quaternion to Euler calculations
 	public void VisualizeQuaternionToEuler(float quat_e0, float quat_ex, float quat_ey, float quat_ez)
 	{
 		quaternion = new Quaternion(quat_ex, quat_ey, quat_ez, quat_e0);

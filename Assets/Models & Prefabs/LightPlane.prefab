@@ -384,6 +384,7 @@ GameObject:
   - component: {fileID: 4527716940582453230}
   - component: {fileID: 1051598435837424995}
   - component: {fileID: 7030672206879066250}
+  - component: {fileID: 3029774895624062232}
   m_Layer: 0
   m_Name: LightPlane_FrontPropeller
   m_TagString: Untagged
@@ -456,6 +457,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3029774895624062232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7560839273371805276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc28a828614b1e4db142a29c2807a74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8433458032782896954
 GameObject:
   m_ObjectHideFlags: 0

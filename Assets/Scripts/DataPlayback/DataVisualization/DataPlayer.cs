@@ -8,7 +8,11 @@ public class DataPlayer : MonoBehaviour
 {
 	private QuaternionToEuler quaternionToEuler; // Reference to QuaternionToEuler component
 	private VelocityCalculator velocityCalculator; // Reference to VelocityCalculator component
+	private GeoToNED geoToNED;
+	private AerodynamicCoefficients aerodynamicCoefficients; // Reference to AerodynamicCoefficients component
+
 	private VehicleVisualization visualization; // Reference to VehicleVisualization component
+	
 
 	private IEnumerator dataPlayer; // Variable declaration for coroutine
 
@@ -147,6 +151,12 @@ public class DataPlayer : MonoBehaviour
 		// Initializing the velocity calculator variable
 		velocityCalculator = GameObject.Find("VelocityCalculatorText").GetComponent<VelocityCalculator>();
 
+		// Initializing the geo to ned variable
+		geoToNED = GameObject.Find("GeoToNEDText").GetComponent<GeoToNED>();
+
+		// Initializing the aerodynamic coefficients variable
+		aerodynamicCoefficients = GameObject.Find("AerodynamicCoefficientsText").GetComponent<AerodynamicCoefficients>();
+
 		// Initializing the vehicle visualization variable
 		visualization = GameObject.Find("LightPlane").GetComponent<VehicleVisualization>();
 
@@ -174,14 +184,19 @@ public class DataPlayer : MonoBehaviour
 
 			quaternionToEuler.VisualizeQuaternionToEuler(Dataset.telemetryData[i][10], Dataset.telemetryData[i][11], Dataset.telemetryData[i][12], Dataset.telemetryData[i][9]); // Quaternion to euler
 			velocityCalculator.VisualizeBodyVelocities(Dataset.telemetryData[i][13], Dataset.telemetryData[i][14], Dataset.telemetryData[i][15]); // Velocity calculations
-			visualization.VisualizePlaneLocationAndRotation(Dataset.telemetryData[i][21], Dataset.telemetryData[i][22], Dataset.telemetryData[i][23], 
-															Dataset.telemetryData[i][10], Dataset.telemetryData[i][11], Dataset.telemetryData[i][12], Dataset.telemetryData[i][9], timeGap);
+			geoToNED.LatLonAltToNED(Dataset.telemetryData[0][21] , Dataset.telemetryData[0][22],Dataset.telemetryData[0][23], 
+									Dataset.telemetryData[i][21], Dataset.telemetryData[i][22], Dataset.telemetryData[i][23]); // Geo to NED calculations
+			aerodynamicCoefficients.VisualizeAerodynamicCoefficients(Dataset.telemetryData[i][3], Dataset.telemetryData[i][4], Dataset.telemetryData[i][5], Dataset.telemetryData[i][19],
+																	Dataset.telemetryData[i][20], Dataset.telemetryData[i][15], Dataset.telemetryData[i][23]); // Aerodynamic Coefficients
+
+			visualization.VisualizePlaneLocationAndRotation(Dataset.telemetryData[i][10], Dataset.telemetryData[i][11], 
+															Dataset.telemetryData[i][12], Dataset.telemetryData[i][9], timeGap); // vehicle visualization
 
 			dataProgressSlider.value = Dataset.telemetryData[i][0]; // Visualize time on data progress slider
 
 			if (i + 1 >= Dataset.telemetryData.Count) // Break the loop when it hits the last row
 			{
-				break;
+				StopData();
 			}
 
 			timeGap = Dataset.telemetryData[i + 1][0] - Dataset.telemetryData[i][0]; // Calculating the time difference for each row
@@ -223,10 +238,12 @@ public class DataPlayer : MonoBehaviour
 	public void StopData()
 	{
 		StopCoroutine(dataPlayer);
+		Propeller.shouldTurn = false;
 	}
 
 	public void StartData(float startFrom)
 	{
+		Propeller.shouldTurn = true;
 		dataPlayer = PlayData(startFrom);
 		StartCoroutine(dataPlayer);
 	}
