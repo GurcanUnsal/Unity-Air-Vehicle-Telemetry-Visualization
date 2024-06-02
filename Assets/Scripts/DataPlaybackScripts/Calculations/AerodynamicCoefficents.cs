@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AerodynamicCoefficents : MonoBehaviour
@@ -18,30 +16,27 @@ public class AerodynamicCoefficents : MonoBehaviour
 		return P / (R * T);
 	}
 
-	public static void CalculateAerodynamicCoefficients()
+	public static void VisualizeAerodynamicCoefficients(float alt_m, float tas_m_s, float mass_kg, float ay_m_s2, float az_m_s2, float thrust_N, float alpha_rad)
 	{
-		float rho = GetAirDensity(Dataset.telemetryData[0][Dataset.columns.IndexOf("alt_m")]);
-		float V = Dataset.telemetryData[1][Dataset.columns.IndexOf("tas_m_s")];
+		float airDensity = GetAirDensity(alt_m);
+		float V = tas_m_s;
 		float S = 0.55f;
 		float CMAC = 0.19f;
 
-		// Lift ve Drag kuvvetlerini hesapla (basit modelleme ile)
-		float Lift = Dataset.telemetryData[0][Dataset.columns.IndexOf("mass_kg")] * Dataset.telemetryData[0][Dataset.columns.IndexOf("az_m_s2")];
-		float Drag = Dataset.telemetryData[0][Dataset.columns.IndexOf("mass_kg")] * Dataset.telemetryData[0][Dataset.columns.IndexOf("ax_m_s2")];
+		float weight = mass_kg * 9.80665f;
+
+		// Calculate lift and drag
+		float Lift = mass_kg * ay_m_s2 + weight * Mathf.Cos(alpha_rad);
+		float Drag = mass_kg * az_m_s2 - thrust_N * Mathf.Cos(alpha_rad);
 
 		// Moment hesaplamasý burada yapýlmalý (örneðin dikey eksen etrafýndaki moment)
 		float M = 0; // Bu deðeri uygun þekilde hesaplamanýz gerekecek
 
 		// Katsayýlarý hesapla
-		float CL = (2 * Lift) / (rho * V * V * S);
-		float CD = (2 * Drag) / (rho * V * V * S);
-		float Cm = (2 * M) / (rho * V * V * S * CMAC);
+		float CL = (2 * Lift) / (airDensity * V * V * S);
+		float CD = (2 * Drag) / (airDensity * V * V * S);
+		float Cm = (2 * M) / (airDensity * V * V * S * CMAC);
 
 		Debug.Log($"CL: {CL}, CD: {CD}, Cm: {Cm}");
-	}
-
-	private void Start()
-	{
-		CalculateAerodynamicCoefficients();
 	}
 }

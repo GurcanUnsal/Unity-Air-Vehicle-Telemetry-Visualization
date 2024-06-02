@@ -6,7 +6,11 @@ using System.Collections.Generic;
 
 public class DataPlayer : MonoBehaviour
 {
-	private IEnumerator dataPlayer;
+	private QuaternionToEuler quaternionToEuler; // Reference to QuaternionToEuler component
+	private VelocityCalculator velocityCalculator; // Reference to VelocityCalculator component
+	private VehicleVisualization visualization; // Reference to VehicleVisualization component
+
+	private IEnumerator dataPlayer; // Variable declaration for coroutine
 
 	// Variable declarations for text components
 	#region Text Component Declarations
@@ -68,8 +72,7 @@ public class DataPlayer : MonoBehaviour
 
 	#endregion
 
-	// Variable declaration for data progress slider
-	private static Slider dataProgressSlider;
+	private static Slider dataProgressSlider; // Variable declaration for data progress slider
 
 	void Start()
 	{
@@ -138,14 +141,23 @@ public class DataPlayer : MonoBehaviour
 		dataProgressSlider.minValue = 0;
 		dataProgressSlider.maxValue = Dataset.telemetryData[Dataset.telemetryData.Count - 1][0];
 
+		// Initializing the quaternion to euler variable
+		quaternionToEuler = GameObject.Find("QuaternionToEulerText").GetComponent<QuaternionToEuler>();
+
+		// Initializing the velocity calculator variable
+		velocityCalculator = GameObject.Find("VelocityCalculatorText").GetComponent<VelocityCalculator>();
+
+		// Initializing the vehicle visualization variable
+		visualization = GameObject.Find("LightPlane").GetComponent<VehicleVisualization>();
+
 		// Start data player coroutine when scene is loaded
 		StartData(0);
 	}
 
-	public IEnumerator PlayData(float startFrom)
+	private IEnumerator PlayData(float startFrom)
 	{
 		int i = 0;
-		float timeGap;
+		float timeGap = 0;
 		
 
 		foreach (List<float> row in Dataset.telemetryData)
@@ -159,6 +171,11 @@ public class DataPlayer : MonoBehaviour
 		while (true)
 		{
 			VisualizeTextData(i); // Display the telemetry data on texts
+
+			quaternionToEuler.VisualizeQuaternionToEuler(Dataset.telemetryData[i][10], Dataset.telemetryData[i][11], Dataset.telemetryData[i][12], Dataset.telemetryData[i][9]); // Quaternion to euler
+			velocityCalculator.VisualizeBodyVelocities(Dataset.telemetryData[i][13], Dataset.telemetryData[i][14], Dataset.telemetryData[i][15]); // Velocity calculations
+			visualization.VisualizePlaneLocationAndRotation(Dataset.telemetryData[i][21], Dataset.telemetryData[i][22], Dataset.telemetryData[i][23], 
+															Dataset.telemetryData[i][10], Dataset.telemetryData[i][11], Dataset.telemetryData[i][12], Dataset.telemetryData[i][9], timeGap);
 
 			dataProgressSlider.value = Dataset.telemetryData[i][0]; // Visualize time on data progress slider
 

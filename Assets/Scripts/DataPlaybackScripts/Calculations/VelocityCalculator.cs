@@ -1,24 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class VelocityCalculator : MonoBehaviour
 {
-	private int tas_m_s_index = Dataset.columns.IndexOf("tas_m_s");
-	private int alpha_rad_index = Dataset.columns.IndexOf("alpha_rad");
-	private int beta_rad_index = Dataset.columns.IndexOf("beta_rad");
-	public Vector3 CalculateBodyVelocities()
-	{
-		float u = Dataset.telemetryData[0][tas_m_s_index] * Mathf.Cos(Dataset.telemetryData[0][alpha_rad_index]) * Mathf.Cos(Dataset.telemetryData[0][beta_rad_index]);
-		float v = Dataset.telemetryData[0][tas_m_s_index] * Mathf.Sin(Dataset.telemetryData[0][beta_rad_index]);
-		float w = Dataset.telemetryData[0][tas_m_s_index] * Mathf.Sin(Dataset.telemetryData[0][alpha_rad_index]) * Mathf.Cos(Dataset.telemetryData[0][beta_rad_index]);
+	private TextMeshProUGUI velocityCalculatorText;
 
-		return new Vector3(u, v, w);
+	private void Awake()
+	{
+		velocityCalculatorText = GetComponent<TextMeshProUGUI>();
 	}
 
-	void Start()
+	public void VisualizeBodyVelocities(float alpha_rad, float beta_rad, float tas_m_s)
 	{
-		Vector3 bodyVelocities = CalculateBodyVelocities();
-		Debug.Log($"u: {bodyVelocities.x}, v: {bodyVelocities.y}, w: {bodyVelocities.z}");
+		float u = tas_m_s * Mathf.Cos(alpha_rad) * Mathf.Cos(beta_rad);
+		float v = tas_m_s * Mathf.Sin(beta_rad);
+		float w = tas_m_s * Mathf.Sin(alpha_rad) * Mathf.Cos(beta_rad);
+
+		velocityCalculatorText.text = $"Body Velocities: U: {string.Format("{0:F2}", u)} V: {string.Format("{0:F2}", v)} W: {string.Format("{0:F2}", w)}";
 	}
 }
