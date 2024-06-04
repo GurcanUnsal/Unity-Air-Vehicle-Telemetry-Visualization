@@ -221,7 +221,7 @@ public class DataPlayer : MonoBehaviour
 
 			// vehicle visualization
 			visualization.VisualizePlaneLocationAndRotation(Dataset.telemetryData[i][Dataset.columns.IndexOf(quat_ex)], Dataset.telemetryData[i][Dataset.columns.IndexOf(quat_ey)], 
-															Dataset.telemetryData[i][Dataset.columns.IndexOf(quat_ez)], Dataset.telemetryData[i][Dataset.columns.IndexOf(quat_e0)], timeGap);
+															Dataset.telemetryData[i][Dataset.columns.IndexOf(quat_ez)], Dataset.telemetryData[i][Dataset.columns.IndexOf(quat_e0)]);
 
 			// Visualize time on data progress slider
 			dataProgressSlider.value = Dataset.telemetryData[i][Dataset.columns.IndexOf(time_sn)];
