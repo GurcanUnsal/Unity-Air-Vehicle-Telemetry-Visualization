@@ -6,7 +6,7 @@ GEREKSİNİMLER
 
 PROJENİN ÇALIŞTIRILMASI
 - Unity Hub arayüzünü kullanarak projeyi içe aktarın.
-- Proje içe aktarıldıktan sonra, "FileUpload" sahnesini açın.
+- Proje içe aktarıldıktan sonra, Scenes klasörünün altında bulunan "FileUpload" sahnesini açın.
 - Eğer veri seti yüklemeden "DataPlayback" sahnesini oynatmaya çalışırsanız bir uyarı ile karşılaşacaksınız. OK tuşuna basarak FileUpload
 sahnesine geçiş yapabilirsiniz.
 
@@ -29,7 +29,7 @@ REQUIREMENTS
 
 RUNNING THE PROJECT
 - Import the project using the Unity Hub interface.
-- After the project is imported, open the "FileUpload" scene.
+- After the project is imported, open the "FileUpload" scene located under the Scenes folder.
 - If you try to play the "DataPlayback" scene without loading a dataset, you will encounter a warning. You can proceed to the FileUpload 
 scene by pressing the OK button.
 
